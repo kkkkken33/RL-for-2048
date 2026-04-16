@@ -29,14 +29,14 @@
 
 推荐使用虚拟环境。
 
-```bash
+```
 python -m venv venv
 ```
 
 
 安装依赖：
 
-```bash
+```
 pip install -r requirements.txt
 ```
 
@@ -44,7 +44,7 @@ pip install -r requirements.txt
 
 只测环境：
 
-```bash
+```
 pytest env/envs/test_game2048_env.py
 ```
 
@@ -65,13 +65,13 @@ $$
 
 直接运行：
 
-```powershell
+```
 python .\feature_q_learning.py
 ```
 
 指定参数：
 
-```powershell
+```
 python .\feature_q_learning.py --episodes 20000 --alpha 0.01 --gamma 0.99 --eval-every 500
 ```
 
@@ -80,11 +80,19 @@ python .\feature_q_learning.py --episodes 20000 --alpha 0.01 --gamma 0.99 --eval
 ```bash
 sh run_feature_q.sh
 ```
+windows:
+```
+.\run_feature_q.ps1
+```
 
 临时覆盖脚本参数：
 
 ```bash
 sh run_feature_q.sh --episodes 5000 --alpha 0.005
+```
+windows:
+```
+.\run_feature_q.ps1 --episodes 1 --log-every 1 --eval-every 0 --save-every 0
 ```
 
 ### 训练输出
@@ -157,6 +165,11 @@ python .\visualize_feature_q.py --model .\output\feature_q_run_xxx\feature_q_fin
 - `--mode`：`human | ansi | video`
 - `--seed`：随机种子
 - `--output-dir`：输出根目录
+
+### 绘制训练图像
+```
+python plot_reward_curves.py --run-dir=<到训练文件夹的路径>
+```
 
 ## PPO 与 BC（可选流程）
 

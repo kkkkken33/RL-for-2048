@@ -105,9 +105,9 @@ def play_episode(env_instance: gym.Env, agent: LinearQAgent, mode: str) -> dict[
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Visualize saved Feature-Q model on 2048-v0")
     parser.add_argument("--model", required=True, help="Path to saved .npz model file")
-    parser.add_argument("--episodes", type=int, default=5)
+    parser.add_argument("--episodes", type=int, default=1)
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--mode", choices=["human", "ansi", "video"], default="human")
+    parser.add_argument("--mode", choices=["human", "ansi", "video"], default="video")
     parser.add_argument("--output-dir", type=str, default="./output")
     return parser.parse_args()
 

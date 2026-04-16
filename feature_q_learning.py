@@ -394,11 +394,23 @@ def train(args: argparse.Namespace) -> None:
 
 	reward_window: list[float] = []
 	high_window: list[int] = []
+	best_reward = float("-inf")
+	best_episode = 0
+	best_model_path = run_dir / "feature_q_best_reward.npz"
 
 	for episode in range(1, args.episodes + 1):
 		stats = run_episode(train_env, agent)
 		reward_window.append(stats.reward)
 		high_window.append(stats.highest)
+
+		if stats.reward > best_reward:
+			best_reward = stats.reward
+			best_episode = episode
+			agent.save(best_model_path)
+			print(
+				f"  [best] new best reward={best_reward:.2f} "
+				f"at ep={best_episode}, saved: {best_model_path}"
+			)
 
 		if len(reward_window) > args.log_window:
 			reward_window.pop(0)
@@ -446,6 +458,11 @@ def train(args: argparse.Namespace) -> None:
 	final_path = run_dir / final_name
 	agent.save(final_path)
 	print(f"Training complete. Final model saved: {final_path}")
+	if best_episode > 0:
+		print(
+			f"Best-reward model: {best_model_path} "
+			f"(episode={best_episode}, reward={best_reward:.2f})"
+		)
 
 	train_env.close()
 	eval_env.close()
