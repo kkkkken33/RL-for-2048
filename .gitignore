@@ -90,3 +90,7 @@ ENV/
 
 # Comma separated value files
 *.csv
+
+# Outut files
+*.mp4
+output/
