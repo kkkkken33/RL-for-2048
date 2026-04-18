@@ -1,4 +1,4 @@
-1. 增加奖励：合成的数字越大奖励越多
+1. 增加奖励：合成的数字越大奖励越多 √
 2. max_tile 一直给奖励不行
 3. 最大值所在行和列是满的则给奖励
 4. 大的数字在同一行/列（smoothness）
@@ -6,7 +6,7 @@
 
 分工：
 1. liturature review 左
-2. baseline: random, manually specific algorithm 许
+2. baseline: random, manually specific algorithm  许
 3. exploration strategy: epsilon, epsilon decay/ other strategy 钟
 4. reward design: w1r1 + w2r2 +w3r3 钟
 5. feature design: ablation study 左
