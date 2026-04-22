@@ -1,0 +1,73 @@
+====================================================================================================
+CONFIGURATION COMPARISON SUMMARY
+====================================================================================================
+
+Configuration: A - Conservative Stable
+Weights: (1.0, 1.0, 0.4, 0.8, 0.6, 0.3, 1.0, -2.0)
+  Final Avg Reward (last 100 ep): 2040.44
+  Max Single Episode Reward: 7060.00
+  Max Highest Tile: 512
+  Final Avg Highest Tile: 187.52
+  Eval Avg Reward: 5905.86
+  Eval Max Reward: 12437.80
+  Output: output\reward_q_run_20260420_184256
+
+----------------------------------------------------------------------------------------------------
+
+Configuration: B - Aggressive High Score
+Weights: (1.5, 0.6, 0.8, 0.5, 0.4, 0.2, 0.8, -2.0)
+  Final Avg Reward (last 100 ep): 2027.20
+  Max Single Episode Reward: 5436.00
+  Max Highest Tile: 512
+  Final Avg Highest Tile: 191.04
+  Eval Avg Reward: 4264.64
+  Eval Max Reward: 9876.00
+  Output: output\reward_q_run_20260420_185105
+
+----------------------------------------------------------------------------------------------------
+
+Configuration: C - Classic 2048 Strategy
+Weights: (1.0, 1.2, 0.6, 1.0, 0.7, 0.4, 1.5, -2.5)
+  Final Avg Reward (last 100 ep): 1991.72
+  Max Single Episode Reward: 5340.00
+  Max Highest Tile: 512
+  Final Avg Highest Tile: 183.68
+  Eval Avg Reward: 6367.40
+  Eval Max Reward: 11720.20
+  Output: output\reward_q_run_20260420_185847
+
+----------------------------------------------------------------------------------------------------
+
+Configuration: D - Extreme Score Pursuit
+Weights: (2.0, 0.3, 1.0, 0.2, 0.1, 0.1, 0.5, -3.0)
+  Final Avg Reward (last 100 ep): 2126.88
+  Max Single Episode Reward: 5412.00
+  Max Highest Tile: 512
+  Final Avg Highest Tile: 203.84
+  Eval Avg Reward: 5747.32
+  Eval Max Reward: 12035.00
+  Output: output\reward_q_run_20260420_190646
+
+----------------------------------------------------------------------------------------------------
+
+
+RANKING BY METRICS:
+----------------------------------------------------------------------------------------------------
+
+1. By Final Avg Reward:
+   1. D - Extreme Score Pursuit: 2126.88
+   2. A - Conservative Stable: 2040.44
+   3. B - Aggressive High Score: 2027.20
+   4. C - Classic 2048 Strategy: 1991.72
+
+2. By Max Highest Tile:
+   1. A - Conservative Stable: 512
+   2. B - Aggressive High Score: 512
+   3. C - Classic 2048 Strategy: 512
+   4. D - Extreme Score Pursuit: 512
+
+3. By Eval Avg Reward:
+   1. C - Classic 2048 Strategy: 6367.40
+   2. A - Conservative Stable: 5905.86
+   3. D - Extreme Score Pursuit: 5747.32
+   4. B - Aggressive High Score: 4264.64
