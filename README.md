@@ -175,23 +175,6 @@ Each visualization run saves to `output/feature_q_visualize_<timestamp>/`:
 python plot_reward_curves.py --run-dir=<path to training folder>
 ```
 
-## PPO & BC (Optional Pipelines)
-
-- Behavior cloning pretraining: [pretrain_bc.py](pretrain_bc.py)
-- PPO training: [ppo_train.py](ppo_train.py)
-
-Examples:
-
-```powershell
-.\venv\Scripts\python.exe .\pretrain_bc.py data\test_data.csv
-.\venv\Scripts\python.exe .\ppo_train.py --total-timesteps 5000000
-```
-
-## FAQ
-
-- `mode=video` fails to generate video: Please ensure `moviepy` is installed
-- Font error causes rendering failure: Fallback fonts are built-in, no extra changes needed
-- Import errors when running test files directly: Prefer running `pytest` from the project root
 
 ## License
 
