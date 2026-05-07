@@ -26,7 +26,10 @@ Core files:
 - [pretrain_bc.py](pretrain_bc.py): Behavior cloning pretraining script
 
 ## Visual Demo
-<video controls src="2048_play.mp4" title="Play 2048"></video>
+
+https://github.com/user-attachments/assets/5da3fe9a-911c-4150-a9de-0527da8cd313
+
+
 
 ## Environment Setup
 
