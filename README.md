@@ -1,116 +1,117 @@
-# 2048 强化学习项目（Gymnasium + PyTorch）
+# 2048 Reinforcement Learning Project (Gymnasium + PyTorch)
 
-这个项目实现了一个 2048 游戏环境，以及多种训练与评估流程，包含：
+This project implements a 2048 game environment, along with various training and evaluation pipelines, including:
 
-- 2048 Gymnasium 环境（环境 ID：`2048-v0`）
-- 监督学习数据采集与处理（CSV）
-- PPO 训练流程（Stable-Baselines3）
-- Feature-based Q-learning 训练与可视化
+- 2048 Gymnasium environment (Env ID: `2048-v0`)
+- Supervised learning data collection and processing (CSV)
+- PPO training pipeline (Stable-Baselines3)
+- Feature-based Q-learning training and visualization
 
-环境关键信息：
+Key environment information:
 
-- 观测：`(16, 4, 4)`，channels-first one-hot
-- 动作：4 个离散动作，`0=Up, 1=Right, 2=Down, 3=Left`
+- Observation: `(16, 4, 4)`, channels-first one-hot
+- Actions: 4 discrete actions, `0=Up, 1=Right, 2=Down, 3=Left`
 
-## 项目结构
+## Project Structure
 
-核心文件：
+Core files:
 
-- [env/envs/game2048_env.py](env/envs/game2048_env.py)：2048 环境实现
-- [env/envs/test_game2048_env.py](env/envs/test_game2048_env.py)：环境单元测试
-- [training_data.py](training_data.py)：训练数据读写与增强
-- [feature_q_learning.py](feature_q_learning.py)：Feature-based Q-learning 训练脚本
-- [visualize_feature_q.py](visualize_feature_q.py)：Feature-Q 模型评估/可视化脚本
-- [run_feature_q.sh](run_feature_q.sh)：Feature-Q 训练启动脚本（集中配置参数）
-- [ppo_train.py](ppo_train.py)：PPO 训练脚本
-- [pretrain_bc.py](pretrain_bc.py)：行为克隆预训练脚本
+- [env/envs/game2048_env.py](env/envs/game2048_env.py): 2048 environment implementation
+- [env/envs/test_game2048_env.py](env/envs/test_game2048_env.py): Environment unit tests
+- [training_data.py](training_data.py): Training data I/O and augmentation
+- [feature_q_learning.py](feature_q_learning.py): Feature-based Q-learning training script
+- [visualize_feature_q.py](visualize_feature_q.py): Feature-Q model evaluation/visualization script
+- [run_feature_q.sh](run_feature_q.sh): Feature-Q training launcher (centralized config)
+- [ppo_train.py](ppo_train.py): PPO training script
+- [pretrain_bc.py](pretrain_bc.py): Behavior cloning pretraining script
 
-## 环境安装
+## Visual Demo
+<video controls src="2048_play.mp4" title="Play 2048"></video>
 
-推荐使用虚拟环境。
+## Environment Setup
+
+It is recommended to use a virtual environment.
 
 ```
 python -m venv venv
 ```
 
-
-安装依赖：
+Install dependencies:
 
 ```
 pip install -r requirements.txt
 ```
 
-## 测试
+## Testing
 
-只测环境：
+Test only the environment:
 
 ```
 pytest env/envs/test_game2048_env.py
 ```
 
-
 ## Feature-based Q-learning
 
-### 方法简介
+### Method Overview
 
-使用线性函数近似：
+Uses linear function approximation:
 
 $$
 Q(s, a) = w_a^T \phi(s, a)
 $$
 
-其中特征来自动作后的 after-state，包括空格比例、最大 tile、单调性、平滑度、合并潜力、角落最大值等。
+Features are extracted from the after-state (after taking the action), including empty tile ratio, max tile, monotonicity, smoothness, merge potential, corner max value, etc.
 
-### 训练命令
+### Training Commands
 
-直接运行：
+Run directly:
 
 ```
 python .\feature_q_learning.py
 ```
 
-指定参数：
+Specify parameters:
 
 ```
 python .\feature_q_learning.py --episodes 20000 --alpha 0.01 --gamma 0.99 --eval-every 500
 ```
 
-使用启动脚本（仅在linux或wsl可用）：
+Use launcher script (Linux/WSL only):
 
 ```bash
 sh run_feature_q.sh
 ```
-windows:
+Windows:
 ```
 .\run_feature_q.ps1
 ```
 
-临时覆盖脚本参数：
+Temporarily override script parameters:
 
 ```bash
 sh run_feature_q.sh --episodes 5000 --alpha 0.005
 ```
-windows:
+Windows:
 ```
 .\run_feature_q.ps1 --episodes 1 --log-every 1 --eval-every 0 --save-every 0
 ```
 
-### 训练输出
+### Training Output
 
-每次训练会在 `output/feature_q_run_时间戳/` 下保存：
+Each training run saves to `output/feature_q_run_<timestamp>/`:
 
-- `train.log`：完整训练日志
-- `config.json`：本次参数
-- `train_metrics.csv`：逐 episode 训练指标
-- `eval_metrics.csv`：定期评估指标
-- `feature_q_ep*.npz`：中间 checkpoint
-- `feature_q_final_*.npz`：最终模型
+- `train.log`: Full training log
+- `config.json`: Parameters for this run
+- `train_metrics.csv`: Per-episode training metrics
+- `eval_metrics.csv`: Periodic evaluation metrics
+- `feature_q_ep*.npz`: Intermediate checkpoints
+- `feature_q_final_*.npz`: Final model
 
-## 模型可视化与评估
+## Model Visualization & Evaluation
 
-使用脚本 [visualize_feature_q.py](visualize_feature_q.py) 加载 `.npz` 模型进行评估。
+Use [visualize_feature_q.py](visualize_feature_q.py) to load `.npz` models for evaluation.
 
-示例：
+Examples:
 
 ```powershell
 python .\visualize_feature_q.py --model .\output\feature_q_run_xxx\feature_q_final_xxx.npz --episodes 3 --mode human
@@ -124,72 +125,72 @@ python .\visualize_feature_q.py --model .\output\feature_q_run_xxx\feature_q_fin
 python .\visualize_feature_q.py --model .\output\feature_q_run_xxx\feature_q_final_xxx.npz --episodes 3 --mode video
 ```
 
-### 可视化模式说明
+### Visualization Modes
 
-- `human`：实时图像窗口渲染，适合人工观察
-- `ansi`：终端文本棋盘输出，适合 SSH/无图形环境
-- `video`：录制 mp4 视频，适合回放和汇报
+- `human`: Real-time image window rendering, suitable for manual observation
+- `ansi`: Terminal text board output, suitable for SSH/headless environments
+- `video`: Record mp4 video, suitable for playback and reporting
 
-### 可视化输出
+### Visualization Output
 
-每次可视化会在 `output/feature_q_visualize_时间戳/` 下保存：
+Each visualization run saves to `output/feature_q_visualize_<timestamp>/`:
 
-- `config.json`：评估参数
-- `episode_metrics.csv`：每局 reward/highest/steps
-- `summary.json`：均值与最大值汇总
-- `videos/*.mp4`：仅 `mode=video` 时生成
+- `config.json`: Evaluation parameters
+- `episode_metrics.csv`: Per-episode reward/highest/steps
+- `summary.json`: Mean and max summary
+- `videos/*.mp4`: Only generated when `mode=video`
 
-## 参数说明
+## Parameter Descriptions
 
-### 训练参数（feature_q_learning.py）
+### Training Parameters (feature_q_learning.py)
 
-- `--episodes`：训练回合数
-- `--alpha`：学习率
-- `--gamma`：折扣因子
-- `--epsilon`：初始探索率
-- `--epsilon-min`：最小探索率
-- `--epsilon-decay`：探索率衰减
-- `--log-every`：日志输出间隔
-- `--log-window`：滑动平均窗口
-- `--eval-every`：评估间隔（0 表示关闭）
-- `--eval-episodes`：每次评估局数
-- `--save-every`：checkpoint 间隔（0 表示关闭）
-- `--output-dir`：输出根目录
-- `--output-name`：最终模型文件名（可选）
-- `--load`：从已有 `.npz` 模型继续训练
+- `--episodes`: Number of training episodes
+- `--alpha`: Learning rate
+- `--gamma`: Discount factor
+- `--epsilon`: Initial exploration rate
+- `--epsilon-min`: Minimum exploration rate
+- `--epsilon-decay`: Exploration rate decay
+- `--log-every`: Log output interval
+- `--log-window`: Moving average window
+- `--eval-every`: Evaluation interval (0 to disable)
+- `--eval-episodes`: Number of episodes per evaluation
+- `--save-every`: Checkpoint interval (0 to disable)
+- `--output-dir`: Output root directory
+- `--output-name`: Final model filename (optional)
+- `--load`: Continue training from existing `.npz` model
 
-### 可视化参数（visualize_feature_q.py）
+### Visualization Parameters (visualize_feature_q.py)
 
-- `--model`：模型路径（必填）
-- `--episodes`：评估局数
-- `--mode`：`human | ansi | video`
-- `--seed`：随机种子
-- `--output-dir`：输出根目录
+- `--model`: Model path (required)
+- `--episodes`: Number of evaluation episodes
+- `--mode`: `human | ansi | video`
+- `--seed`: Random seed
+- `--output-dir`: Output root directory
 
-### 绘制训练图像
+### Plotting Training Curves
 ```
-python plot_reward_curves.py --run-dir=<到训练文件夹的路径>
+python plot_reward_curves.py --run-dir=<path to training folder>
 ```
 
-## PPO 与 BC（可选流程）
+## PPO & BC (Optional Pipelines)
 
-- 行为克隆预训练：[pretrain_bc.py](pretrain_bc.py)
-- PPO 训练：[ppo_train.py](ppo_train.py)
+- Behavior cloning pretraining: [pretrain_bc.py](pretrain_bc.py)
+- PPO training: [ppo_train.py](ppo_train.py)
 
-示例：
+Examples:
 
 ```powershell
 .\venv\Scripts\python.exe .\pretrain_bc.py data\test_data.csv
 .\venv\Scripts\python.exe .\ppo_train.py --total-timesteps 5000000
 ```
 
-## 常见问题
+## FAQ
 
-- `mode=video` 无法生成视频：请确认已安装 `moviepy`
-- 字体报错导致渲染失败：环境已内置字体回退，不需要额外修改
-- 直接运行测试文件出现导入问题：优先在项目根目录使用 `pytest`
+- `mode=video` fails to generate video: Please ensure `moviepy` is installed
+- Font error causes rendering failure: Fallback fonts are built-in, no extra changes needed
+- Import errors when running test files directly: Prefer running `pytest` from the project root
 
 ## License
 
-MIT，详见 [LICENSE.txt](LICENSE.txt)。
+MIT, see [LICENSE.txt](LICENSE.txt) for details.
 
